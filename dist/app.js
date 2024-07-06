@@ -5,19 +5,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
-const globalErrorHandler_1 = __importDefault(require("./app/middlewares/globalErrorHandler"));
-const notFound_1 = __importDefault(require("./app/middlewares/notFound"));
-const routes_1 = __importDefault(require("./app/routes"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)());
 // Routes
-app.use("/api/", routes_1.default);
+// app.use("/api/", router);
 app.get("/", (req, res) => {
     res.send("Welcome to my bootcamp first assignment!");
 });
 // global error handler
-app.use(globalErrorHandler_1.default);
+// app.use(globalErrorHandler);
 // not found handler
-app.use(notFound_1.default);
+// app.use(notFound);
 exports.default = app;

@@ -1,20 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-import config from "./app/config";
+// import config from "./app/config";
 import app from "./app";
-import mongoose from "mongoose";
+// import mongoose from "mongoose";
 import { Server } from "http";
 
+const port = process.env.PORT || 8050;
+
 let server: Server;
+
+console.log(port);
 
 async function main() {
   try {
     // connect to db
-    await mongoose.connect(config.db_url as string);
+    // await mongoose.connect(config.db_url as string);
 
     // start server
-    server = app.listen(config.PORT, () => {
-      console.log(`Server running on port ${config.PORT}`);
+    server = app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
     });
   } catch (error) {
     // log any errors that occur during server startup

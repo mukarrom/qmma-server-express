@@ -5,17 +5,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-const config_1 = __importDefault(require("./app/config"));
+// import config from "./app/config";
 const app_1 = __importDefault(require("./app"));
-const mongoose_1 = __importDefault(require("mongoose"));
+const port = process.env.PORT || 8050;
 let server;
+console.log(port);
 async function main() {
     try {
         // connect to db
-        await mongoose_1.default.connect(config_1.default.db_url);
+        // await mongoose.connect(config.db_url as string);
         // start server
-        server = app_1.default.listen(config_1.default.PORT, () => {
-            console.log(`Server running on port ${config_1.default.PORT}`);
+        server = app_1.default.listen(port, () => {
+            console.log(`Server running on port ${port}`);
         });
     }
     catch (error) {
