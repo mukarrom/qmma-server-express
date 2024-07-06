@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable no-console */
-// import config from "./app/config";
+import mongoose from "mongoose";
 import app from "./app";
-// import mongoose from "mongoose";
 import { Server } from "http";
+import config from "./app/config";
 
 const port = process.env.PORT || 8050;
 
@@ -14,7 +14,7 @@ console.log(port);
 async function main() {
   try {
     // connect to db
-    // await mongoose.connect(config.db_url as string);
+    await mongoose.connect(config.db_url as string);
 
     // start server
     server = app.listen(port, () => {
