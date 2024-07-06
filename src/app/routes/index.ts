@@ -1,6 +1,5 @@
 import { Router } from "express";
-import { ProductRoutes } from "../modules/Product/product.route";
-import { OrderRoutes } from "../modules/Order/order.route";
+import { UserRoutes } from "../modules/Users/user.route";
 
 const router = Router();
 interface IModuleRoutes {
@@ -10,13 +9,17 @@ interface IModuleRoutes {
 
 const moduleRoutes: IModuleRoutes[] = [
   {
-    path: "/products",
-    route: ProductRoutes,
+    path: "/users",
+    route: UserRoutes,
   },
-  {
-    path: "/orders",
-    route: OrderRoutes,
-  },
+  // {
+  //   path: "/products",
+  //   route: ProductRoutes,
+  // },
+  // {
+  //   path: "/orders",
+  //   route: OrderRoutes,
+  // },
 ];
 
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

@@ -5,11 +5,7 @@ import app from "./app";
 import { Server } from "http";
 import config from "./app/config";
 
-const port = process.env.PORT || 8050;
-
 let server: Server;
-
-console.log(port);
 
 async function main() {
   try {
@@ -17,8 +13,8 @@ async function main() {
     await mongoose.connect(config.db_url as string);
 
     // start server
-    server = app.listen(port, () => {
-      console.log(`Server running on port ${port}`);
+    server = app.listen(config.PORT, () => {
+      console.log(`Server running on port ${config.PORT}`);
     });
   } catch (error) {
     // log any errors that occur during server startup
