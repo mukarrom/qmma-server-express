@@ -11,7 +11,7 @@ app.use((0, cors_1.default)());
 // Routes
 // app.use("/api/", router);
 app.get("/", (req, res) => {
-    res.send("Welcome to my bootcamp first assignment!");
+    res.send("Welcome to Qawmi management server app!");
 });
 // global error handler
 // app.use(globalErrorHandler);
