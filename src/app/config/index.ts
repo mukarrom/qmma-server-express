@@ -1,14 +1,11 @@
 import { config } from "dotenv";
 import path from "path";
 
-config({
-  path: path.join(process.cwd(), ".env"),
-});
+config({ path: path.join(process.cwd(), ".env") });
 
 export default {
-  port: process.env.PORT,
-  db: process.env.DB_URL,
-  secret: process.env.SECRET_KEY,
-  saltRounds: process.env.SALT_ROUNDS,
-  expiresIn: process.env.EXPIRES_IN,
+  NODE_ENV: process.env.NODE_ENV || "development",
+  PORT: process.env.PORT || 8080,
+  db_url: process.env.MONGO_URI,
+  JWT_SECRET: process.env.JWT_SECRET || "secret",
 };
