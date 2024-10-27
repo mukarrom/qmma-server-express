@@ -1,0 +1,169 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+/// Students
+Table students [headercolor: "#008000	"] {
+  _id ObjectId [primary key, not null]
+  name String
+  person ObjectId [ref: > persons._id]
+  studentId String [pk, unique, not null]
+  admissionNo String
+  admissionTime Date
+  academicYear ObjectId [ref: > academicYears._id]
+  class ObjectId [ref: > classes._id]
+  group string
+  section String
+  roleNo int
+  previousScoolName String
+  previousClassName String
+  previousSectionName String
+  previousGroupName String
+  father ObjectId
+  mother ObjectId
+  guardian ObjectId
+  transaction ObjectId
+  status status [default: "active"]
+  createdAt timestamp
+  updatedeAt timestamp
+}
+
+/// Persons
+Table persons [headercolor: "#008080"] {
+  _id ObjectId
+  name ObjectId [ref: > names._id]  
+  photoUrl String
+  dateOfBirth datetime
+  birthCertificateNo String
+  nidNo String
+  mobile string[]
+  bloodGroup TBloodGroup
+  email String
+  gender TGender
+  presentAddress ObjectId [ref: > address._id]
+  permanentAddress ObjectId [ref: > address._id]
+  roles personRoles [default: "student"]
+  status status [default: "active"]
+  isDeleted boolean [default: false]
+  createdAt Date
+  updatedAt Date
+}
+
+/// Names
+Table names {
+  _id ObjectId [pk, not null, unique]
+  nameBn String [not null]
+  nameEn String [null]
+  nameAr String [null]
+}
+
+Enum TBloodGroup {
+  "A+"
+  "A-"
+  "B+"
+  "B-"
+  "AB+"
+  "AB-"
+  "O+"
+  "O-"
+}
+
+Enum TGender {
+  male
+  female
+}
+
+Table address {
+  _id ObjectId [pk, not null, unique]
+  village String
+  postOffice String
+  policeStation String
+  district String
+  postCode String
+}
+
+Enum personRoles {
+  student
+  faculty
+  guardian
+}
+
+Enum userRoles {
+  superAdmin
+  admin
+  principal
+  nazem
+  darulIqamah
+  teacher
+  student
+  gateMan
+  coocker
+  guardian
+}
+
+Enum status {
+  active
+  inactive
+}
+
+/// Academic Year
+table academicYears {
+  _id ObjectId [pk, not null, unique]
+  name String
+  startTime date
+  endTime date
+  status enum [default: "active"]
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+/// Class
+table classes {
+  _id ObjectId [pk, not null, unique]
+  name String
+  status enum [default: "active"]
+  createdAt timestamp
+  updatedAt timestamp
+}
+
+/// Fathers
+table fathers {
+  _id ObjectId [pk, not null, unique]
+  name String
+  persion ObjectId [ref: > persons._id]
+  occupation String
+}
+
+/// Mothers
+table mothers {
+  _id ObjectId [pk, not null, unique]
+  name String
+  persion ObjectId [ref: > persons._id]
+  occupation String
+}
+
+/// Mothers
+table guardians {
+  _id ObjectId [pk, not null, unique]
+  name String
+  persion ObjectId [ref: > persons._id]
+  relation String
+}
+
+
+// Table users [headercolor: #fff000] {
+//   _id Objectid [primary key, unique]
+//   role userRoles [default: "student"]
+//   person String [ref: > persons._id] // many-to-one
+//   email string
+//   password string
+//   createdAt timestamp
+//   updatedAt timestamp
+// }
+
+
+
+
+
+
+
+

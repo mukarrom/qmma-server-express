@@ -9,6 +9,7 @@ const path_1 = __importDefault(require("path"));
 exports.default = {
     NODE_ENV: process.env.NODE_ENV || "development",
     PORT: process.env.PORT || 8080,
-    db_url: process.env.MONGO_URI,
+    atlas_url: process.env.MONGO_URI,
+    local_url: process.env.MONGO_LOCAL_URL,
     JWT_SECRET: process.env.JWT_SECRET || "secret",
 };

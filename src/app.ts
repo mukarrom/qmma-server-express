@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(cors());
 
 // Routes
-app.use("/api/", router);
+app.use("/api/v1", router);
 
 app.get("/", (req, res) => {
   res.send("Welcome to Qawmi management server app!");
