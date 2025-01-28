@@ -7,6 +7,8 @@ const class_route_1 = require("../modules/Classes/class.route");
 const group_route_1 = require("../modules/Groups/group.route");
 const guardian_route_1 = require("../modules/Guardians/guardian.route");
 const student_route_1 = require("../modules/Students/student.route");
+const category_route_1 = require("../modules/Library/Categories/category.route");
+const product_route_1 = require("../modules/Library/Products/product.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -32,6 +34,14 @@ const moduleRoutes = [
     {
         path: "/groups",
         route: group_route_1.GroupRoutes,
+    },
+    {
+        path: "/categories",
+        route: category_route_1.CategoryRoutes,
+    },
+    {
+        path: "/products",
+        route: product_route_1.ProductRoutes,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));

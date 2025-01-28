@@ -7,7 +7,6 @@ import { GuardianModel } from "../Guardians/guardian.model";
 import { StudentModel } from "./student.model";
 import AppError from "../../errors/AppError";
 import httpStatus from "http-status";
-import { createUserId } from "../Users/user.utils";
 import { createGuardianId } from "../Guardians/guardian.util";
 import { createStudentAdmissionNo, createStudentId, createStudentRoleNo } from "./student.util";
 

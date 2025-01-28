@@ -14,7 +14,11 @@ router.get("/", guardian_controller_1.GuardianControllers.getAllGuardiansControl
 // get guardian by id route
 router.get("/:guardianId", guardian_controller_1.GuardianControllers.getGuardianByIdController);
 // create new guardian route
-router.post("/", (0, validateRequest_1.default)(guardian_validation_1.GuardianValidations.createGuardianValidationSchema), guardian_controller_1.GuardianControllers.createNewGuardianController);
+// router.post(
+//   "/",
+//   validateRequest(GuardianValidations.createGuardianValidationSchema),
+//   GuardianControllers.createNewGuardianController,
+// );
 // update guardian route
 router.patch("/:guardianId", (0, validateRequest_1.default)(guardian_validation_1.GuardianValidations.updateGuardianValidationSchema), guardian_controller_1.GuardianControllers.updateGuardianController);
 // delete guardian route
