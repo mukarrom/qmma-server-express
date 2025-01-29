@@ -9,6 +9,12 @@ const router = Router();
 // get all categories
 router.get("/", CategoryControllers.getAllCategoriesController);
 
+// get all deleted categories
+router.get("/deleted", CategoryControllers.getDeletedCategoriesController);
+
+// delete forever category
+router.delete("/forever/:categoryId", CategoryControllers.deleteForeverCategoryController);
+
 // create new academic year
 router.post(
   "/",

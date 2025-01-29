@@ -52,9 +52,33 @@ const deleteCategoryController = (0, catchAsync_1.default)(async (req, res) => {
         data: null,
     });
 });
+const getDeletedCategoriesController = (0, catchAsync_1.default)(async (req, res) => {
+    const query = req.query;
+    const result = await category_service_1.CategoryServices.getDeletedCategoriesService(query);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: "Deleted categories fetched successfully!",
+        meta: result.meta,
+        data: result.result,
+    });
+});
+const deleteForeverCategoryController = (0, catchAsync_1.default)(async (req, res) => {
+    const { categoryId } = req.params;
+    await category_service_1.CategoryServices.deleteForeverCategoryService(categoryId);
+    // send response
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: "Category deleted forever successfully!",
+        data: null,
+    });
+});
 exports.CategoryControllers = {
     getAllCategoriesController,
     createNewCategoryController,
     updateCategoryController,
     deleteCategoryController,
+    getDeletedCategoriesController,
+    deleteForeverCategoryController,
 };

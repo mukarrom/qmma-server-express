@@ -29,9 +29,26 @@ const deleteCategoryService = async (id) => {
     const result = await category_model_1.CategoryModel.findByIdAndUpdate(id, { isDeleted: true });
     return result;
 };
+const getDeletedCategoriesService = async (query) => {
+    const categoryQueryBuilder = new QueryBuilder_1.default(category_model_1.CategoryModel.find({ isDeleted: true }), query)
+        .search(["name"])
+        .filter()
+        .sort()
+        .paginate()
+        .fields();
+    const meta = await categoryQueryBuilder.countTotal();
+    const result = await categoryQueryBuilder.modelQuery;
+    return { meta, result };
+};
+const deleteForeverCategoryService = async (id) => {
+    const result = await category_model_1.CategoryModel.findByIdAndDelete(id);
+    return result;
+};
 exports.CategoryServices = {
     createNewCategoryService,
     getAllCategoriesService,
     updateCategoryService,
     deleteCategoryService,
+    getDeletedCategoriesService,
+    deleteForeverCategoryService,
 };

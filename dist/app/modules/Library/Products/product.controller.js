@@ -40,8 +40,9 @@ const createNewProductController = (0, catchAsync_1.default)(async (req, res) =>
 });
 const updateProductController = (0, catchAsync_1.default)(async (req, res) => {
     const { productId } = req.params;
+    const { categoryId } = req.query;
     const productData = req.body;
-    const result = await product_service_1.ProductServices.updateProductService(productId, productData);
+    const result = await product_service_1.ProductServices.updateProductService(productId, productData, categoryId);
     (0, sendResponse_1.default)(res, {
         statusCode: 200,
         success: true,
@@ -59,10 +60,32 @@ const deleteProductController = (0, catchAsync_1.default)(async (req, res) => {
         data: null,
     });
 });
+const getDeletedProductsController = (0, catchAsync_1.default)(async (req, res) => {
+    const query = req.query;
+    const result = await product_service_1.ProductServices.getDeletedProductsService(query);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: "Deleted products fetched successfully!",
+        data: result,
+    });
+});
+const deleteForeverProductController = (0, catchAsync_1.default)(async (req, res) => {
+    const { productId } = req.params;
+    await product_service_1.ProductServices.deleteForeverProductService(productId);
+    (0, sendResponse_1.default)(res, {
+        statusCode: 200,
+        success: true,
+        message: "Product deleted forever!",
+        data: null,
+    });
+});
 exports.ProductControllers = {
     getAllProductController,
     getProductByIdController,
     createNewProductController,
     updateProductController,
     deleteProductController,
+    getDeletedProductsController,
+    deleteForeverProductController,
 };

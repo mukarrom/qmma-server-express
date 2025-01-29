@@ -31,9 +31,30 @@ const deleteCategoryService = async (id: string) => {
   return result;
 };
 
+const getDeletedCategoriesService = async (query: Record<string, unknown>) => {
+  const categoryQueryBuilder = new QueryBuilder(CategoryModel.find({ isDeleted: true }), query)
+    .search(["name"])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const meta = await categoryQueryBuilder.countTotal();
+  const result = await categoryQueryBuilder.modelQuery;
+
+  return { meta, result };
+};
+
+const deleteForeverCategoryService = async (id: string) => {
+  const result = await CategoryModel.findByIdAndDelete(id);
+  return result;
+};
+
 export const CategoryServices = {
   createNewCategoryService,
   getAllCategoriesService,
   updateCategoryService,
   deleteCategoryService,
+  getDeletedCategoriesService,
+  deleteForeverCategoryService,
 };

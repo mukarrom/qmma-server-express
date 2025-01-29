@@ -4,8 +4,9 @@ exports.CategoryModel = void 0;
 const mongoose_1 = require("mongoose");
 const categorySchema = new mongoose_1.Schema({
     name: { type: String, required: true, unique: true },
-    description: { type: String },
+    description: { type: String, default: null },
     image: { type: String, default: null },
+    totalProducts: { type: Number, default: 0 },
     isDeleted: { type: Boolean, default: false },
 }, {
     timestamps: true,

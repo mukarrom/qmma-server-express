@@ -12,6 +12,10 @@ const category_validation_1 = require("./category.validation");
 const router = (0, express_1.Router)();
 // get all categories
 router.get("/", category_controller_1.CategoryControllers.getAllCategoriesController);
+// get all deleted categories
+router.get("/deleted", category_controller_1.CategoryControllers.getDeletedCategoriesController);
+// delete forever category
+router.delete("/forever/:categoryId", category_controller_1.CategoryControllers.deleteForeverCategoryController);
 // create new academic year
 router.post("/", (0, validateRequest_1.default)(category_validation_1.CategoryValidations.updateCategoryValidationSchema), category_controller_1.CategoryControllers.createNewCategoryController);
 // update academic year
