@@ -1,4 +1,6 @@
+import httpStatus from "http-status";
 import QueryBuilder from "../../../builder/QueryBuilder";
+import AppError from "../../../errors/AppError";
 import { ICategory } from "./category.interface";
 import { CategoryModel } from "./category.model";
 
@@ -46,6 +48,14 @@ const getDeletedCategoriesService = async (query: Record<string, unknown>) => {
 };
 
 const deleteForeverCategoryService = async (id: string) => {
+  const category = await CategoryModel.findById(id);
+  if ((category?.totalProducts ?? 0) > 0) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      `Category is associated with ${category?.totalProducts} products, cannot delete!`,
+    );
+  }
+
   const result = await CategoryModel.findByIdAndDelete(id);
   return result;
 };
