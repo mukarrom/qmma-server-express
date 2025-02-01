@@ -55,6 +55,20 @@ const updateProductController = catchAsync(async (req, res) => {
   });
 });
 
+const updateProductTotalController = catchAsync(async (req, res) => {
+  const { productId } = req.params;
+  const total = req.body;
+
+  const result = await ProductServices.updateProductTotalService(productId, total?.bought, total?.sold);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Product total updated successfully!",
+    data: result,
+  });
+});
+
 const deleteProductController = catchAsync(async (req, res) => {
   const { productId } = req.params;
   await ProductServices.deleteProductService(productId);
@@ -96,6 +110,7 @@ export const ProductControllers = {
   getProductByIdController,
   createNewProductController,
   updateProductController,
+  updateProductTotalController,
   deleteProductController,
   getDeletedProductsController,
   deleteForeverProductController,

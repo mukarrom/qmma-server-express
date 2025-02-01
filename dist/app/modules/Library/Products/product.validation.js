@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AcademicYearValidation = void 0;
+exports.ProductValidations = void 0;
 const zod_1 = require("zod");
 // zod validation schema
 const ProductValidationSchema = zod_1.z.object({
@@ -15,6 +15,7 @@ const ProductValidationSchema = zod_1.z.object({
         .optional(),
     price: zod_1.z
         .number({
+        required_error: "Price is required",
         invalid_type_error: "Price must be Number",
     })
         .optional(),
@@ -27,26 +28,12 @@ const ProductValidationSchema = zod_1.z.object({
     })
         .optional(),
     category: zod_1.z.string({
+        required_error: "Category is required",
         invalid_type_error: "Category must be Object Id",
     }),
     tags: zod_1.z.array(zod_1.z.string({
         invalid_type_error: "Tags must be an array of strings",
     })),
-    totalBought: zod_1.z
-        .number({
-        invalid_type_error: "Total Bought must be a number",
-    })
-        .optional(),
-    totalSold: zod_1.z
-        .number({
-        invalid_type_error: "Total Sold must be a number",
-    })
-        .optional(),
-    inStock: zod_1.z
-        .number({
-        invalid_type_error: "In Stock must be a number",
-    })
-        .optional(),
 });
 const createProductValidationSchema = zod_1.z.object({
     body: ProductValidationSchema,
@@ -54,7 +41,24 @@ const createProductValidationSchema = zod_1.z.object({
 const updateProductValidationSchema = zod_1.z.object({
     body: ProductValidationSchema.partial(),
 });
-exports.AcademicYearValidation = {
+const productTotalValidationSchema = zod_1.z.object({
+    body: zod_1.z.object({
+        bought: zod_1.z
+            .number({
+            invalid_type_error: "bought must be Number",
+        })
+            .default(0)
+            .optional(),
+        sold: zod_1.z
+            .number({
+            invalid_type_error: "sold must be Number",
+        })
+            .default(0)
+            .optional(),
+    }),
+});
+exports.ProductValidations = {
     createProductValidationSchema,
     updateProductValidationSchema,
+    productTotalValidationSchema,
 };

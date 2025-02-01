@@ -5,7 +5,7 @@ const mongoose_1 = require("mongoose");
 const library_constant_1 = require("../library.constant");
 const productSchema = new mongoose_1.Schema({
     name: { type: String, required: true, unique: true },
-    description: { type: String },
+    description: { type: String, default: "" },
     price: { type: Number, default: 0 },
     image: { type: String, default: null },
     category: { type: mongoose_1.Schema.Types.ObjectId, ref: "category", required: true },

@@ -13,6 +13,7 @@ const ProductValidationSchema = z.object({
     .optional(),
   price: z
     .number({
+      required_error: "Price is required",
       invalid_type_error: "Price must be Number",
     })
     .optional(),
@@ -25,6 +26,7 @@ const ProductValidationSchema = z.object({
     })
     .optional(),
   category: z.string({
+    required_error: "Category is required",
     invalid_type_error: "Category must be Object Id",
   }),
   tags: z.array(
@@ -32,21 +34,6 @@ const ProductValidationSchema = z.object({
       invalid_type_error: "Tags must be an array of strings",
     }),
   ),
-  totalBought: z
-    .number({
-      invalid_type_error: "Total Bought must be a number",
-    })
-    .optional(),
-  totalSold: z
-    .number({
-      invalid_type_error: "Total Sold must be a number",
-    })
-    .optional(),
-  inStock: z
-    .number({
-      invalid_type_error: "In Stock must be a number",
-    })
-    .optional(),
 });
 
 const createProductValidationSchema = z.object({
@@ -57,7 +44,25 @@ const updateProductValidationSchema = z.object({
   body: ProductValidationSchema.partial(),
 });
 
-export const AcademicYearValidation = {
+const productTotalValidationSchema = z.object({
+  body: z.object({
+    bought: z
+      .number({
+        invalid_type_error: "bought must be Number",
+      })
+      .default(0)
+      .optional(),
+    sold: z
+      .number({
+        invalid_type_error: "sold must be Number",
+      })
+      .default(0)
+      .optional(),
+  }),
+});
+
+export const ProductValidations = {
   createProductValidationSchema,
   updateProductValidationSchema,
+  productTotalValidationSchema,
 };

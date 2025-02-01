@@ -5,6 +5,7 @@ import { ProductModel } from "./product.model";
 import { CategoryModel } from "../Categories/category.model";
 import AppError from "../../../errors/AppError";
 import httpStatus from "http-status";
+import { PRODUCT_STATUS } from "../library.constant";
 
 const getAllProductsService = async (query: Record<string, unknown>) => {
   const productQueryBuilder = new QueryBuilder(ProductModel.find({ isDeleted: false }).populate("category"), query)
@@ -70,7 +71,26 @@ const createNewProductService = async (payload: IProduct) => {
 };
 
 const updateProductService = async (productId: string, payload: IProduct, categoryId?: string) => {
+  const updateData: Partial<IProduct> = {
+    name: payload?.name,
+    description: payload?.description,
+    price: payload?.price,
+  };
+
+  if (payload.image) {
+    updateData.image = payload?.image;
+  }
+  if (payload.tags) {
+    updateData.tags = payload?.tags;
+  }
+
+  if (!payload.category) {
+    const result = await ProductModel.findByIdAndUpdate(productId, updateData, { new: true });
+    return result;
+  }
+
   if (payload.category) {
+    updateData.category = payload?.category;
     const category = await CategoryModel.findById(payload.category);
     if (!category) {
       throw new AppError(httpStatus.BAD_REQUEST, "Category not found");
@@ -80,7 +100,7 @@ const updateProductService = async (productId: string, payload: IProduct, catego
     try {
       session.startTransaction();
       // update product
-      const result = await ProductModel.findByIdAndUpdate(productId, payload, { new: true, session });
+      const result = await ProductModel.findByIdAndUpdate(productId, updateData, { new: true, session });
 
       // if product not updated throw error
       if (!result) {
@@ -117,10 +137,38 @@ const updateProductService = async (productId: string, payload: IProduct, catego
       session.endSession();
       throw error;
     }
-  } else {
-    const result = await ProductModel.findByIdAndUpdate(productId, payload, { new: true });
-    return result;
   }
+};
+
+const updateProductTotalService = async (productId: string, bought: number = 0, sold: number = 0) => {
+  const product = await ProductModel.findById(productId);
+  if (!product) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Product not found");
+  }
+  if (product.isDeleted) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Product is deleted");
+  }
+  if (bought < 0 || sold < 0) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Invalid bought or sold value");
+  }
+  if (product.inStock + bought - sold < 0) {
+    if (sold > 0) {
+      throw new AppError(
+        httpStatus.BAD_REQUEST,
+        `Not enough stock to sell ${sold} ${product.name} product. In stock: ${product.inStock}`,
+      );
+    }
+    throw new AppError(httpStatus.BAD_REQUEST, "Invalid bought or sold value");
+  }
+  const status = product.inStock + bought - sold === 0 ? PRODUCT_STATUS.OUT_OF_STOCK : PRODUCT_STATUS.IN_STOCK;
+  // update product
+  const result = await ProductModel.findByIdAndUpdate(
+    productId,
+    { $inc: { totalBought: bought, totalSold: sold, inStock: bought - sold }, $set: { status: status } },
+    { new: true },
+  );
+
+  return result;
 };
 
 const deleteProductService = async (id: string) => {
@@ -129,6 +177,15 @@ const deleteProductService = async (id: string) => {
 };
 
 const deleteForeverProductService = async (id: string) => {
+  const product = await ProductModel.findById(id);
+  if (!product) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Product not found");
+  }
+
+  if (product.inStock > 0) {
+    throw new AppError(httpStatus.BAD_REQUEST, "Product still in stock");
+  }
+
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
@@ -139,8 +196,6 @@ const deleteForeverProductService = async (id: string) => {
     if (!result) {
       throw new AppError(httpStatus.BAD_REQUEST, "Product not deleted");
     }
-
-    console.log(result);
 
     // decrease totalProducts in category
     const category = await CategoryModel.findByIdAndUpdate(
@@ -168,6 +223,7 @@ export const ProductServices = {
   getProductByIdService,
   createNewProductService,
   updateProductService,
+  updateProductTotalService,
   deleteProductService,
   getDeletedProductsService,
   deleteForeverProductService,

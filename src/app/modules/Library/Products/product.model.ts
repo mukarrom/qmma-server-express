@@ -5,7 +5,7 @@ import { PRODUCT_STATUS } from "../library.constant";
 const productSchema = new Schema<IProduct>(
   {
     name: { type: String, required: true, unique: true },
-    description: { type: String },
+    description: { type: String, default: "" },
     price: { type: Number, default: 0 },
     image: { type: String, default: null },
     category: { type: Schema.Types.ObjectId, ref: "category", required: true },
