@@ -38,6 +38,10 @@ const getDeletedProductsService = async (query) => {
     return { meta, result };
 };
 const createNewProductService = async (payload) => {
+    const category = await category_model_1.CategoryModel.findById(payload.category);
+    if (!category) {
+        throw new AppError_1.default(http_status_1.default.BAD_REQUEST, "Category not found");
+    }
     const session = await mongoose_1.default.startSession();
     try {
         session.startTransaction();

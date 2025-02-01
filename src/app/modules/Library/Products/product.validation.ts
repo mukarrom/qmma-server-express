@@ -29,11 +29,13 @@ const ProductValidationSchema = z.object({
     required_error: "Category is required",
     invalid_type_error: "Category must be Object Id",
   }),
-  tags: z.array(
-    z.string({
-      invalid_type_error: "Tags must be an array of strings",
-    }),
-  ),
+  tags: z
+    .array(
+      z.string({
+        invalid_type_error: "Tags must be an array of strings",
+      }),
+    )
+    .optional(),
 });
 
 const createProductValidationSchema = z.object({

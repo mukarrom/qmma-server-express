@@ -11,8 +11,8 @@ const config_1 = __importDefault(require("./app/config"));
 let server;
 async function main() {
     try {
-        // connect to db
-        await mongoose_1.default.connect(config_1.default.atlas_url || config_1.default.local_url);
+        // await mongoose.connect(config.local_url as string);
+        await mongoose_1.default.connect(config_1.default.atlas_url);
         // start server
         server = app_1.default.listen(config_1.default.PORT, () => {
             console.log(`Server running on port ${config_1.default.PORT}`);

@@ -31,9 +31,11 @@ const ProductValidationSchema = zod_1.z.object({
         required_error: "Category is required",
         invalid_type_error: "Category must be Object Id",
     }),
-    tags: zod_1.z.array(zod_1.z.string({
+    tags: zod_1.z
+        .array(zod_1.z.string({
         invalid_type_error: "Tags must be an array of strings",
-    })),
+    }))
+        .optional(),
 });
 const createProductValidationSchema = zod_1.z.object({
     body: ProductValidationSchema,

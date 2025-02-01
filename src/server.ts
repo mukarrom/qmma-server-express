@@ -9,8 +9,9 @@ let server: Server;
 
 async function main() {
   try {
-    // connect to db
-    await mongoose.connect((config.atlas_url as string) || (config.local_url as string));
+    // await mongoose.connect(config.local_url as string);
+
+    await mongoose.connect(config.atlas_url as string);
 
     // start server
     server = app.listen(config.PORT, () => {
