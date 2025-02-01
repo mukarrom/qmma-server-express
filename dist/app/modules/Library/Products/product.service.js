@@ -26,6 +26,17 @@ const getProductByIdService = async (id) => {
     const result = await product_model_1.ProductModel.findById(id).populate("category");
     return result;
 };
+const getProductsByCategoryService = async (categoryId, query) => {
+    const productQueryBuilder = new QueryBuilder_1.default(product_model_1.ProductModel.find({ isDeleted: false, category: categoryId }).populate("category"), query)
+        .search(["name", "description"])
+        .filter()
+        .sort()
+        .paginate()
+        .fields();
+    const meta = await productQueryBuilder.countTotal();
+    const result = await productQueryBuilder.modelQuery;
+    return { meta, result };
+};
 const getDeletedProductsService = async (query) => {
     const productQueryBuilder = new QueryBuilder_1.default(product_model_1.ProductModel.find({ isDeleted: true }), query)
         .search(["name", "description"])
@@ -183,6 +194,7 @@ const deleteForeverProductService = async (id) => {
 exports.ProductServices = {
     getAllProductsService,
     getProductByIdService,
+    getProductsByCategoryService,
     createNewProductService,
     updateProductService,
     updateProductTotalService,

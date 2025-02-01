@@ -24,6 +24,21 @@ const getProductByIdService = async (id: string) => {
   return result;
 };
 
+const getProductsByCategoryService = async (categoryId: string, query: Record<string, unknown>) => {
+  const productQueryBuilder = new QueryBuilder(
+    ProductModel.find({ isDeleted: false, category: categoryId }).populate("category"),
+    query,
+  )
+    .search(["name", "description"])
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+  const meta = await productQueryBuilder.countTotal();
+  const result = await productQueryBuilder.modelQuery;
+  return { meta, result };
+};
+
 const getDeletedProductsService = async (query: Record<string, unknown>) => {
   const productQueryBuilder = new QueryBuilder(ProductModel.find({ isDeleted: true }), query)
     .search(["name", "description"])
@@ -226,6 +241,7 @@ const deleteForeverProductService = async (id: string) => {
 export const ProductServices = {
   getAllProductsService,
   getProductByIdService,
+  getProductsByCategoryService,
   createNewProductService,
   updateProductService,
   updateProductTotalService,
