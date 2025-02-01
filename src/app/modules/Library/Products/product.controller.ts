@@ -28,6 +28,20 @@ const getProductByIdController = catchAsync(async (req, res) => {
   });
 });
 
+const getProductsByCategoryController = catchAsync(async (req, res) => {
+  const { categoryId } = req.params;
+  const query = req.query;
+  const result = await ProductServices.getProductsByCategoryService(categoryId, query);
+
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: "Products fetched successfully!",
+    meta: result.meta,
+    data: result.result,
+  });
+});
+
 const createNewProductController = catchAsync(async (req, res) => {
   const productData = req.body;
   const result = await ProductServices.createNewProductService(productData);
@@ -108,6 +122,7 @@ const deleteForeverProductController = catchAsync(async (req, res) => {
 export const ProductControllers = {
   getAllProductController,
   getProductByIdController,
+  getProductsByCategoryController,
   createNewProductController,
   updateProductController,
   updateProductTotalController,
