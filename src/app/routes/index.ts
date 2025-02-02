@@ -7,6 +7,7 @@ import { GuardianRoutes } from "../modules/Guardians/guardian.route";
 import { StudentRoutes } from "../modules/Students/student.route";
 import { CategoryRoutes } from "../modules/Library/Categories/category.route";
 import { ProductRoutes } from "../modules/Library/Products/product.route";
+import { TestRoutes } from "../modules/test/test.route";
 
 const router = Router();
 interface IModuleRoutes {
@@ -15,6 +16,10 @@ interface IModuleRoutes {
 }
 
 const moduleRoutes: IModuleRoutes[] = [
+  {
+    path: "/test",
+    route: TestRoutes,
+  },
   {
     path: "/users",
     route: UserRoutes,

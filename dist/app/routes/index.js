@@ -9,8 +9,13 @@ const guardian_route_1 = require("../modules/Guardians/guardian.route");
 const student_route_1 = require("../modules/Students/student.route");
 const category_route_1 = require("../modules/Library/Categories/category.route");
 const product_route_1 = require("../modules/Library/Products/product.route");
+const test_route_1 = require("../modules/test/test.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
+    {
+        path: "/test",
+        route: test_route_1.TestRoutes,
+    },
     {
         path: "/users",
         route: user_route_1.UserRoutes,
