@@ -5,7 +5,7 @@ const sendImageToCloudinary_1 = require("../../utils/sendImageToCloudinary");
 const uploadImageToCloudinary = async (file) => {
     const data = { name: "test", url: "" };
     // send image to cloudinary
-    const imageData = (await (0, sendImageToCloudinary_1.sendImageToCloudinary)(file.path, data.name));
+    const imageData = (await (0, sendImageToCloudinary_1.sendImageToCloudinary)(file, data.name));
     data.url = imageData.secure_url;
     return data;
 };

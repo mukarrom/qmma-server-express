@@ -9,9 +9,17 @@ const catchAsync_1 = __importDefault(require("../../utils/catchAsync"));
 const sendResponse_1 = __importDefault(require("../../utils/sendResponse"));
 const test_service_1 = require("./test.service");
 const imageUploadTestToCloudinaryController = (0, catchAsync_1.default)(async (req, res) => {
-    console.log("req.file", req.file);
-    const image = req.file;
-    console.log(image);
+    const image = req.file?.buffer;
+    const imageName = `test-${Date.now()}`;
+    if (!image) {
+        return res.status(http_status_1.default.BAD_REQUEST).json({
+            statusCode: http_status_1.default.BAD_REQUEST,
+            success: false,
+            message: "Image is required",
+            data: null,
+        });
+    }
+    console.log(imageName, image);
     const result = await test_service_1.TestServices.uploadImageToCloudinary(image);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.CREATED,
