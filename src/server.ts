@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import app from "./app";
 import { Server } from "http";
 import config from "./app/config";
+import seedSuperAdmin from "./app/DB";
 
 let server: Server;
 
@@ -12,6 +13,9 @@ async function main() {
     // await mongoose.connect(config.local_url as string);
 
     await mongoose.connect(config.atlas_url as string);
+
+    // create super admin if does not exists
+    await seedSuperAdmin();
 
     // start server
     server = app.listen(config.PORT, () => {

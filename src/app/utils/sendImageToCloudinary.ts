@@ -8,16 +8,26 @@ cloudinary.config({
   api_secret: config.cloudinary_api_secret,
 });
 
-export const sendImageToCloudinary = (fileBuffer: Buffer, imageName: string): Promise<UploadApiResponse> => {
+export const sendImageToCloudinary = (
+  fileBuffer: Buffer,
+  imageName: string,
+  folderName: string,
+): Promise<UploadApiResponse> => {
   return new Promise((resolve, reject) => {
     cloudinary.uploader
-      .upload_stream({ public_id: imageName }, (error, result) => {
-        if (error) {
-          reject(error);
-        } else {
-          resolve(result as UploadApiResponse);
-        }
-      })
+      .upload_stream(
+        {
+          public_id: imageName,
+          folder: folderName,
+        },
+        (error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result as UploadApiResponse);
+          }
+        },
+      )
       .end(fileBuffer);
   });
 };

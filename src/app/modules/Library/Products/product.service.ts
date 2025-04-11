@@ -6,6 +6,7 @@ import { CategoryModel } from "../Categories/category.model";
 import AppError from "../../../errors/AppError";
 import httpStatus from "http-status";
 import { PRODUCT_STATUS } from "../library.constant";
+import { sendImageToCloudinary } from "../../../utils/sendImageToCloudinary";
 
 const getAllProductsService = async (query: Record<string, unknown>) => {
   const productQueryBuilder = new QueryBuilder(ProductModel.find({ isDeleted: false }).populate("category"), query)
@@ -89,6 +90,20 @@ const createNewProductService = async (payload: IProduct) => {
     throw error;
   }
 };
+
+// const createNewProductWithImageService = async (payload: IProduct, image: Buffer) => {
+//   const session = await mongoose.startSession();
+//   try {
+//     session.startTransaction();
+
+//     // upload image to cloudinary
+//     const imageData = await sendImageToCloudinary(image, payload.name, payload.category?.name);
+//   } catch (error) {
+//     session.abortTransaction();
+//     session.endSession();
+//     throw error;
+//   }
+// };
 
 const updateProductService = async (productId: string, payload: IProduct, categoryId?: string) => {
   const updateData: Partial<IProduct> = {

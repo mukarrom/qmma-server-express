@@ -10,6 +10,8 @@ export const BLOOD_GROUP = {
 } as const;
 
 export const USER_ROLE = {
+  SUPER_ADMIN: "superAdmin",
+  ADMIN: "admin",
   STUDENT: "student",
   FACULTY: "faculty",
   GUARDIAN: "guardian",
